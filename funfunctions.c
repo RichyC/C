@@ -21,6 +21,7 @@ int getStrLength(char string[])
 /*
  * strRIndex(string, target): string[charArray], target[char] -> int or -1
  * strRIndex returns the right most index of "target" in "string". Returns -1 if "target" not in "string"
+ * Exercise 4-1
  */
 
 int strRIndex(char string[], char target);
