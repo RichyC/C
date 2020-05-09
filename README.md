@@ -2,7 +2,7 @@
 
 I decided to learn C for fun.
 
-My source for learning C
+My source for learning C:
 
 "C Programming Langauge" by Brian W. Kernighan and Dennis M. Ritchie.
 
