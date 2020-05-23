@@ -3,8 +3,11 @@
 // The snippets of code I authored are annotated with "@Richy" comment beside it.
 // If code is not annotated with "@Richy", it is from the book.
 //
-// Exercise 4.3  Given the basic framework, its straightforward to extend the calculator. Add the modulus (%) operator
+// Exercise 4-3  Given the basic framework, its straightforward to extend the calculator. Add the modulus (%) operator
 // and provisions for negative numbers
+//
+// Exercise 4-4 Add commands to print the top element of the stack without popping, to duplicate it,
+// and to swap the top two elements. Add a command to clear the stack.
 #include <stdio.h>
 #include <stdlib.h>  // for atof()
 #include <ctype.h>
@@ -17,6 +20,7 @@
 int getop(char []);
 void push(double);
 double pop(void);
+double peek(void);   //@Richy      Exercise 4-4
 int getch(void);
 void ungetch(int);
 
@@ -24,7 +28,8 @@ char buf[BUFSIZE];  //buffer for ungetch
 int bufp = 0;   //next free position in buf
 int sp = 0;   // next free stack position
 double val[MAXVAL];    //value stack
-int negNumber = 0;   //@Richy       Exercise 4.3
+int negNumber = 0;   //@Richy       Exercise 4-3
+int peekCalled = 0;   //@Richy     Exercise 4-4
 
 /* reverse Polish calculator */
 main()
@@ -37,6 +42,35 @@ main()
     while((type = getop(s)) != EOF)
     {
         switch (type) {
+            case 'c':     //@Richy    Exercise 4-4
+                sp = 0;     //@Richy   Exercise 4-4
+                break;    //@Richy     Exercise 4-4
+            case '^':      //@Richy    Exercise 4-4
+                printf("\t%.8g\n", peek());   //@Richy   Exercise 4.4
+                peekCalled = 1;       //@Richy     Exercise 4.4
+                break;         //@Richy      Exercise 4.4
+            case ':':          //@Richy      Exercise 4-4
+                if(negNumber == 1) {      //@Richy    Exercise 4-4
+                    push(-1 * peek());      //@Richy     Exercise 4-4
+                    negNumber = 0;       //@Richy       Exercise 4-4
+                    break;        //@Richy       Exercise 4-4
+                }     //@Richy        Exercise 4-4
+                else{       //@Richy     Exercise 4-4
+                    push(peek());      //@Richy      Exercise 4-4
+                    break;      //@Richy      Exercise 4-4
+                }            //@Richy     Exercise  4-4
+            case '~':            //@Richy    Exercise 4-4
+                if (sp >= 2) {             //@Richy    Exercise 4-4
+                    double tmp = pop();       //@Richy   Exercise 4-4
+                    double newTop = pop();     //@Richy    Exercise 4-4
+                    push(tmp);         //@Richy      Exercise 4-4
+                    push(newTop);      //@Richy      Exercise 4-4
+                    break;             //@Richy      Exercise 4-4
+                }
+                else {            //@Richy        Exercise 4-4
+                    printf("error: not enough elements in stack to execute a swap");    //@Richy    Exercise 4-4
+                    break;        //@Richy        Exercise 4-4
+                }
             case NUMBER:
                 if(negNumber == 1) {      //@Richy    Exercise 4.3
                     push(-1 * atof(s));      //@Richy     Exercise 4.3
@@ -80,8 +114,13 @@ main()
                     printf("modulus is only performed on two integers");          //@Richy          Exercise 4.3
                 break;             //@Richy             Exercise 4.3
             case '\n':
-                printf("\t%.8g\n", pop());
-                break;
+                if(peekCalled == 0) {       //@Richy    Exercise 4.4
+                    printf("\t%.8g\n", pop());
+                    break;
+                } else {                //@Richy Exercise 4.4
+                    peekCalled = 0;     //@Richy Exercise 4.4
+                    break;             //@Richy Exercise 4.4
+                }
             default:
                 printf("error: unknown command %s\n", s);
                 break;
@@ -130,6 +169,17 @@ double pop(void)
     else{
         printf("error: stack empty\n");
         return 0.0;
+    }
+}
+
+/* peek: present the top value from the stack */
+double peek(void)               //@Richy    Exercise 4-4
+{                      //@Richy         Exercise  4-4
+    if (sp > 0)        //@Richy         Exercise 4-4
+        return val[sp - 1];          //@Richy       Exercise 4-4
+    else {                 //@Richy          Exercise 4-4
+        printf("error: stack empty\n");          //@Richy      Exercise 4-4
+        return 0.0;        //@Richy       Exercise 4-4
     }
 }
 
