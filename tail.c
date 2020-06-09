@@ -30,7 +30,7 @@ int count_lines(FILE *fp, int limit)
         }
         else
             character_count++;
-    if(character_count > limit) {       // if too many characters are counted, return -1
+    if(character_count > limit) {       // if too many characters are counted, return the line number multiplied by -1
         line_count++;
         return (line_count *= -1);
     }
