@@ -1,5 +1,4 @@
-
-I decided to learn C for fun.
+Various programs written in C
 
 My source for learning C:
 
