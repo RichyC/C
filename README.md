@@ -1,4 +1,3 @@
-# fun-with-C
 
 I decided to learn C for fun.
 
